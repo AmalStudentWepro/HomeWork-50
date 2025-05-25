@@ -100,14 +100,26 @@ function createHeader() {
       .then(res => {
         const goods = res.data.filter(g => g.title.toLowerCase().includes(query));
         createSearchResults(goods.slice(0, 5), query); 
-      });
+      }); 
 
       document.body.appendChild(overlay);
   });
 
-  function createSearchResults(results, query) {
-    searchResultsBlock = document.createElement('div');
-    searchResultsBlock.className = 'search-results';
+function createSearchResults(results, query) {
+  searchResultsBlock = document.createElement('div');
+  searchResultsBlock.className = 'search-results';
+
+  const blur = document.createElement('div');
+  blur.className = 'blur';
+  blur.addEventListener('click', () => {
+    blur.remove();
+    searchResultsBlock.remove();
+    searchResultsBlock = null;
+    input.value = '';
+  });
+  
+  document.body.appendChild(blur);
+
 
   const label = document.createElement('p');
   label.textContent = 'Поиск';
